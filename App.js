@@ -20,11 +20,9 @@ export default function App() {
           <Stack.Screen name='ProductDetails'
           component={ProductDetails}
           options={{headerShown: false}}/>
-        {/* <Stack.Screen name = 'NewTodo' component={NewTodo} options= {{headerShown: false,}}/> */}
-        
       </Stack.Navigator>
     </NavigationContainer>
-    // <Home/>
+
   )
  
 }
