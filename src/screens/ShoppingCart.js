@@ -7,15 +7,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { decrementQuantity } from "../redux/cartReducer";
 import { incrementQuantity } from "../redux/cartReducer";
-import { useEffect, useState } from "react";
-
 
 export const ShoppingCart =()=>{
-
     const cart = useSelector((state)=> state.cart.cart);
-  
     const dispatch = useDispatch();
-
     const increaseQuantity=(item)=>[
         dispatch(incrementQuantity(item))
     ]
@@ -26,18 +21,13 @@ export const ShoppingCart =()=>{
 
     const totalCost = cart.reduce((total, item) => {
         return total + item.price * item.quantity;
-      }, 0);
+    }, 0);
 
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-    {console.log(cart)}
-    const cartEmpty =()=>{
-        return (cartItemCount === 0)
-    }
+
 
    return(
-
-
     <View style={styles.container}>
         <Text style = {styles.header}>Shopping Cart</Text>
         {cartItemCount === 0?(
@@ -57,7 +47,6 @@ export const ShoppingCart =()=>{
                                 style={{ width:70, height:70 }}/>
                             </View>
                             <View style = {styles.productDetails}>
-
                                 <Text style= {styles.productDetailsText}>
                                     {item.title}  
                                 </Text>
@@ -73,8 +62,7 @@ export const ShoppingCart =()=>{
                                     
                                     <Pressable
                                         onPress={()=> decreaseQuantity(item)}
-                                        style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.backButton,]}>
-                                        
+                                        style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.backButton,]}>                                       
                                         <Entypo name="circle-with-minus" size={24} color="red" />
                                     </Pressable>                        
                                 </View>                      
@@ -83,41 +71,34 @@ export const ShoppingCart =()=>{
                     )}
                     keyExtractor={(item, index) => index.toString()}/>    
           </View>
-
-
-        )}
-        
-
-        
-
-      
+        )}     
         <Footer/>
     </View>
    )
 }
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',      
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#fff',      
+        alignItems: 'center',
+        justifyContent: 'center',
     },
   
     header:{
-      color: 'white',
-      backgroundColor: '#0096FF',
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top:10,    
-      fontSize: 30,
-      fontWeight: 'bold',
-      marginTop: 30,
-      marginBottom: 70,
-      textAlign: 'center',
-      borderWidth: 1,
-      justifyContent: 'center',
-      alignItems: 'center',  
+        color: 'white',
+        backgroundColor: '#0096FF',
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top:10,    
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginTop: 30,
+        marginBottom: 70,
+        textAlign: 'center',
+        borderWidth: 1,
+        justifyContent: 'center',
+        alignItems: 'center',  
     },
     emptyMessage:{
         fontSize: 20,
@@ -125,7 +106,6 @@ const styles = StyleSheet.create({
         
     },
     secondHeader:{
-
         color: 'black',
         backgroundColor: 'skyblue',
         position: 'absolute',
@@ -155,7 +135,6 @@ const styles = StyleSheet.create({
 
     },
     box:{
-
         marginBottom: 15,
         borderWidth: 2,
         borderRadius: 10,
@@ -168,38 +147,31 @@ const styles = StyleSheet.create({
         position: 'relative',
         top:10,
         left:10,
-      },
+    },
 
-      productDetails:{
+    productDetails:{
         flexDirection: 'column'
-      },
-      productDetailsText:{
+    },
+
+    productDetailsText:{
         fontWeight: 'bold',
         fontSize:13,
         position: 'relative',
         top:10,
         width: 265,
-      },
-      addMinusHandler:{
+    },
+
+    addMinusHandler:{
         flexDirection:'row',
         position: 'relative',
         top: 20,
         left: 5,
+    },
 
-
-      },
-      quantity:{
+    quantity:{
         paddingLeft: 30,
         paddingRight: 40,
 
-      }
-    
-    //   image:{
-    //     width: '100%',
-    //     height: '100%',
-    //     resizeMode: 'cover',
-    //     borderRadius: 15,
-    //   },
-  
-    
+    }
+
   })

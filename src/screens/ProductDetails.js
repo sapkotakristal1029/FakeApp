@@ -2,35 +2,21 @@ import { Text, StyleSheet,View, Image, Pressable } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { ScrollView } from "react-native-gesture-handler";
-
 import { Footer } from "../components/Footer";
-
-
 import {  useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartReducer";
-import { useEffect } from "react";
+
 
 export const ProductDetails =({navigation, route})=>{
 
-  const cart = useSelector((state)=> state.cart.cart);
-  
-  // {console.log(cart)}
-
-  
   const {item} = route.params;
 
   const dispatch = useDispatch();
 
   const addToCartHandler=(item) => {
     dispatch(addToCart(item));
-
-    // Optionally, you can navigate to the cart screen after adding the item
-    // navigation.navigate('Cart');
-    // console.warn('ITEM ADDED TO CART')
-    // console.log(cart)
   };
   
-
   return(   
     <View style={styles.container}>
       <Text style = {styles.header}>Product Details</Text>
@@ -38,7 +24,6 @@ export const ProductDetails =({navigation, route})=>{
         <Image
           source={{uri:`${item.image}`}}
           style={styles.image}/>
-
       </View>
 
       <Text style = {styles.productDetailsCaption}>{item.title}</Text>
@@ -49,16 +34,13 @@ export const ProductDetails =({navigation, route})=>{
           style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.backButton,]}>
           <FontAwesome5 name="backspace" size={20} color="white" />
           <Text style = {styles.backtext} >BACK</Text>
-          
       </Pressable>
 
       <Pressable
           onPress={() => addToCartHandler(item)}
           style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.addToCart,]}>
           <Entypo name="shopping-cart" size={20} color="white" />
-          <Text style = {styles.addToCartText} >ADD TO CART</Text>
-          
-          
+          <Text style = {styles.addToCartText} >ADD TO CART</Text> 
       </Pressable>
       
       <Text style={styles.descriptionText}>Description: </Text>
@@ -66,7 +48,6 @@ export const ProductDetails =({navigation, route})=>{
         <ScrollView>
           <Text style={styles.descriptionDetails} >{item.description}</Text>
         </ScrollView>
-              
 
       </View>
       <Footer/>

@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import { FlatList } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { Entypo } from '@expo/vector-icons';
 import { Footer } from '../components/Footer';
 
 export const Home =()=>{
@@ -123,8 +122,6 @@ const styles = StyleSheet.create({
     bottom:5,
     left:0,
     flexDirection: 'row',
-
-    // justifyContent: space
   },
   homeButton:{
     paddingRight: 30,
@@ -137,11 +134,9 @@ const styles = StyleSheet.create({
   homeText:{
     fontWeight: 'bold',
     fontSize: 15,
-
     paddingLeft:0,
     color: 'black',
   }
-
 
 });
   

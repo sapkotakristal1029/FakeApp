@@ -8,7 +8,6 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Footer } from '../components/Footer';
 
 export const Product=({route, navigation})=>{
-
   const {itemName} = route.params;
 
   const [products, setProducts] = useState([]);
@@ -26,13 +25,11 @@ export const Product=({route, navigation})=>{
         setcategoryLoading(false);
       }
     };
-  
     fetchCategories();
   }, [])
 
   const  productClickHandle=(item)=>{
     navigation.navigate('ProductDetails',{item})
-
   }
     return(
       <View style={styles.container}>
@@ -81,7 +78,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -122,7 +118,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderWidth: 1,
     textAlign: 'center',
-
   },
   
   productImage: {

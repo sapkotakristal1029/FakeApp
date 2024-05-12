@@ -1,11 +1,14 @@
 import { Text,Pressable, View,StyleSheet } from "react-native"
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Entypo } from '@expo/vector-icons';
 import {  useSelector, useDispatch } from "react-redux";
 
 import { toogleSelected } from "../redux/cartReducer";
 
 export const Footer=()=>{
+    const route = useRoute(); 
+
+
     const navigation = useNavigation();
 
     const dispatch = useDispatch();
@@ -14,7 +17,7 @@ export const Footer=()=>{
 
     const cart = useSelector((state)=> state.cart.cart);
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
-  
+
 
     const goToCartHandler=()=>{
       dispatch(toogleSelected());
@@ -23,7 +26,10 @@ export const Footer=()=>{
     }
     const goToHomeHandler=()=>{
       dispatch(toogleSelected());
-      navigation.goBack()
+      if (route.name !== 'Home'){
+        navigation.goBack()
+      }
+        
     
     }
 return(
