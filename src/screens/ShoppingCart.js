@@ -48,7 +48,12 @@ export const ShoppingCart =()=>{
                             </View>
                             <View style = {styles.productDetails}>
                                 <Text style= {styles.productDetailsText}>
-                                    {item.title}  
+                                    {item.title} 
+                                     
+                                </Text>
+                                <Text style= {styles.productPriceText}>
+                                    Price: ${item.price} 
+                                     
                                 </Text>
                                 <View style = {styles.addMinusHandler}>
                                     <Pressable
@@ -154,8 +159,15 @@ const styles = StyleSheet.create({
     },
 
     productDetailsText:{
+        // fontWeight: 'bold',
+        fontSize:12,
+        position: 'relative',
+        top:10,
+        width: 265,
+    },
+    productPriceText:{
         fontWeight: 'bold',
-        fontSize:13,
+        fontSize:12,
         position: 'relative',
         top:10,
         width: 265,
