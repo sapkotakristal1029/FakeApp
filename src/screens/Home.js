@@ -3,6 +3,8 @@ import { StatusBar } from 'expo-status-bar';
 import { FlatList } from "react-native-gesture-handler";
 import { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Entypo } from '@expo/vector-icons';
+import { Footer } from '../components/Footer';
 
 export const Home =()=>{
 
@@ -31,6 +33,8 @@ export const Home =()=>{
   const categoryClickHandle = (itemName)=>{
     navigation.navigate('Product',{itemName})
   }
+  
+  
         
   return (
     <View style={styles.container}>
@@ -56,7 +60,7 @@ export const Home =()=>{
           />
         </View>
       )}
-
+      <Footer/>
       <StatusBar style="auto" />
     </View>
 )};
@@ -88,7 +92,7 @@ const styles = StyleSheet.create({
 
   context:{
     width: 380,
-    height: 690,
+    height: 625,
     position: 'absolute',
     left: 5,
     top:100,
@@ -113,6 +117,29 @@ const styles = StyleSheet.create({
     color: '#0096FF',
     fontWeight: 'bold',
     fontSize: 20,
+  },
+  footer:{
+    position:'absolute',
+    bottom:5,
+    left:0,
+    flexDirection: 'row',
+
+    // justifyContent: space
+  },
+  homeButton:{
+    paddingRight: 30,
+    paddingLeft: 50,
+  },
+  cartButton:{
+    paddingRight: 30,
+    paddingLeft: 190,
+  },
+  homeText:{
+    fontWeight: 'bold',
+    fontSize: 15,
+
+    paddingLeft:0,
+    color: 'black',
   }
 
 

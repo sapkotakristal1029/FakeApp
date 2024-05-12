@@ -3,8 +3,34 @@ import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { ScrollView } from "react-native-gesture-handler";
 
+import { Footer } from "../components/Footer";
+
+
+import {  useSelector, useDispatch } from "react-redux";
+import { addToCart } from "../redux/cartReducer";
+import { useEffect } from "react";
+
 export const ProductDetails =({navigation, route})=>{
-  const {item} = route.params
+
+  const cart = useSelector((state)=> state.cart.cart);
+  
+  // {console.log(cart)}
+
+  
+  const {item} = route.params;
+
+  const dispatch = useDispatch();
+
+  const addToCartHandler=(item) => {
+    dispatch(addToCart(item));
+
+    // Optionally, you can navigate to the cart screen after adding the item
+    // navigation.navigate('Cart');
+    // console.warn('ITEM ADDED TO CART')
+    // console.log(cart)
+  };
+  
+
   return(   
     <View style={styles.container}>
       <Text style = {styles.header}>Product Details</Text>
@@ -16,7 +42,7 @@ export const ProductDetails =({navigation, route})=>{
       </View>
 
       <Text style = {styles.productDetailsCaption}>{item.title}</Text>
-      <Text style = {styles.productDetailsRate}>{`RATE: ${item.rating.rate}              SOLD:${item.rating.count}              PRICE:${item.price}`}</Text>
+      <Text style = {styles.productDetailsRate}>{`RATE: ${item.rating.rate}              SOLD: ${item.rating.count}              PRICE:$ ${item.price}`}</Text>
 
       <Pressable
           onPress={()=> navigation.goBack()}
@@ -27,10 +53,11 @@ export const ProductDetails =({navigation, route})=>{
       </Pressable>
 
       <Pressable
-          // onPress={()=> navigation.goBack()}
+          onPress={() => addToCartHandler(item)}
           style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.addToCart,]}>
           <Entypo name="shopping-cart" size={20} color="white" />
           <Text style = {styles.addToCartText} >ADD TO CART</Text>
+          
           
       </Pressable>
       
@@ -42,6 +69,7 @@ export const ProductDetails =({navigation, route})=>{
               
 
       </View>
+      <Footer/>
           
     </View>
   )};
@@ -163,7 +191,7 @@ const styles = StyleSheet.create({
     top:560,
     left:10,
     width:370,
-    height:235,
+    height:180,
     borderRadius:9,
     borderWidth: 1,
     backgroundColor:'#D3D3D3'

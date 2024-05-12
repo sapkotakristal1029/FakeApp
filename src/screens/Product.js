@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { Image } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { FontAwesome5 } from '@expo/vector-icons';
+import { Footer } from '../components/Footer';
 
 export const Product=({route, navigation})=>{
 
@@ -70,6 +71,7 @@ export const Product=({route, navigation})=>{
               </Pressable>
           </View>
         )}
+          <Footer/>
           <StatusBar style="auto" />
         </View>
     )
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
 
   context:{
     width: 380,
-    height: 690,
+    height: 625,
     position: 'absolute',
     left: 5,
     top:100,
