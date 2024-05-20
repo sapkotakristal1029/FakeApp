@@ -1,6 +1,9 @@
 import { Text,Pressable, View,StyleSheet } from "react-native"
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Entypo } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
+
 import {  useSelector, useDispatch } from "react-redux";
 
 import { toogleSelected } from "../redux/cartReducer";
@@ -25,10 +28,24 @@ export const Footer=()=>{
     
     }
     const goToHomeHandler=()=>{
-      dispatch(toogleSelected());
-      if (route.name !== 'Home'){
-        navigation.goBack()
-      }
+
+
+      navigation.navigate("Home")
+
+        
+    
+    }
+    const goToOrderHandler=()=>{
+      // dispatch(toogleSelected());
+      navigation.navigate("Order")
+
+        
+    
+    }
+    const goToProfileHandler=()=>{
+      // dispatch(toogleSelected());
+      navigation.navigate("Userprofile")
+
         
     
     }
@@ -41,6 +58,14 @@ return(
             <Text style = {[styles.homeText,{color: selected? "grey": 'blue'}]} >HOME</Text>
             
         </Pressable>
+        {
+          cartItemCount>0 && (
+              <View style = {styles.cartCountBadge}>
+                  <Text style = {styles.cartCount}>{cartItemCount}</Text>
+              </View>)
+                
+            
+        }
         <Pressable
             onPress={() => goToCartHandler()}
             style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.cartButton,]}>
@@ -51,14 +76,31 @@ return(
             
             
         </Pressable>
-        {
-            cartItemCount>0 && (
-                <View style = {styles.cartCountBadge}>
-                    <Text style = {styles.cartCount}>{cartItemCount}</Text>
-                </View>)
-                
+        
+        <Pressable
+            onPress={() => goToOrderHandler()}
+            style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.cartButton,]}>
+            <SimpleLineIcons name="present" 
+              size={30} 
+              color="grey" />
+            <Text style = {[styles.homeText,{color: 'grey'}]} >MY ORDERS</Text>
             
-        }
+            
+        </Pressable>
+        <Pressable
+            onPress={() => goToProfileHandler()}
+            style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.cartButton,]}>
+            <FontAwesome name="user" 
+              size={30} 
+              color="grey"  />
+
+            <Text style = {[styles.homeText,{color: 'grey'}]} >PROFILE</Text>
+            
+            
+        </Pressable>
+        
+
+ 
         
 </View>
 )
@@ -74,12 +116,12 @@ const styles = StyleSheet.create({
         // justifyContent: space
       },
       homeButton:{
-        paddingRight: 30,
-        paddingLeft: 50,
+        // paddingRight: 30,
+        paddingLeft: 20,
       },
       cartButton:{
-        paddingRight: 30,
-        paddingLeft: 190,
+        // paddingRight: 30,
+        paddingLeft: 35,
       },
       homeText:{
         fontWeight: 'bold',
@@ -97,12 +139,13 @@ const styles = StyleSheet.create({
       },
       cartCountBadge:{
         position: 'absolute',
-        bottom:40,
-        right:50,
+        bottom:43,
+        left:120,
         backgroundColor: 'red',
-        borderRadius: 10,
-        padding: 5,
+        borderRadius: 50,
+        // padding: 10,
         minWidth: 20,
+        minHeight: 20,
         alignItems: 'center',
         justifyContent: 'center'
         
