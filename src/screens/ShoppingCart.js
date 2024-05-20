@@ -7,6 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { decrementQuantity } from "../redux/cartReducer";
 import { incrementQuantity } from "../redux/cartReducer";
+import { emptyCart } from "../redux/cartReducer";
+import { MaterialIcons } from '@expo/vector-icons';
 
 export const ShoppingCart =()=>{
     const cart = useSelector((state)=> state.cart.cart);
@@ -25,6 +27,11 @@ export const ShoppingCart =()=>{
 
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
+    const checkoutHandler=()=>{
+
+
+        console.log('hi')
+    }
 
 
    return(
@@ -75,6 +82,13 @@ export const ShoppingCart =()=>{
                         </View>              
                     )}
                     keyExtractor={(item, index) => index.toString()}/>    
+
+                    <Pressable
+                        onPress={()=> checkoutHandler()}
+                        style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.checkoutButton,]}>
+                            <MaterialIcons name="payment" size={24} color="black" />
+                            <Text style={styles.checkoutText}>Checkout</Text>
+                        </Pressable>
           </View>
         )}     
         <Footer/>
@@ -184,6 +198,17 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 40,
 
+    },
+    checkoutButton:{
+        display: "flex",
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: '#0096FF',
+        borderRadius: 20,
+    },
+    checkoutText:{
+        position:'relative',
+        top:4,
     }
 
   })
