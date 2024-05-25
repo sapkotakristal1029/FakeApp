@@ -5,13 +5,20 @@ import { FlatList } from "react-native-gesture-handler";
 import { Image } from "react-native";
 import { Ionicons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { decrementQuantity } from "../redux/cartReducer";
+import { decrementQuantity, orderCount } from "../redux/cartReducer";
 import { incrementQuantity } from "../redux/cartReducer";
 import { emptyCart } from "../redux/cartReducer";
 import { MaterialIcons } from '@expo/vector-icons';
+import { UserContext } from "../services/Usercontext";
+import { useContext, useState, useEffect } from "react";
+import { Alert } from "react-native";
+
 
 export const ShoppingCart =()=>{
     const cart = useSelector((state)=> state.cart.cart);
+
+    const countOrder = useSelector((state)=> state.cart.orderCount)
+    
     const dispatch = useDispatch();
     const increaseQuantity=(item)=>[
         dispatch(incrementQuantity(item))
@@ -20,6 +27,12 @@ export const ShoppingCart =()=>{
         dispatch(decrementQuantity(item))
 
     ]
+    const [cartItems, setCartItems] = useState([])
+
+    const{user}=useContext(UserContext)
+    const token = user.token
+    console.log(token)
+
 
     const totalCost = cart.reduce((total, item) => {
         return total + item.price * item.quantity;
@@ -27,11 +40,58 @@ export const ShoppingCart =()=>{
 
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
-    const checkoutHandler=()=>{
+    useEffect(() => {
+        const fetchCartData = async () => {
+          try {
+            const response = await fetch('http://10.0.2.2:3000/cart', {
+              method: 'GET',
+              headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+              }
+            });
+    
+            if (!response.ok) {
+              throw new Error('Failed to fetch cart data');
+            }
+    
+            const data = await response.json();
+            setCartItems(data.items);
+
+          } catch (error) {
+            console.error('Error fetching cart data:', error.message);
+          }
+        };
+    
+        fetchCartData();
+      }, [cart])
 
 
-        console.log('hi')
-    }
+    const checkoutHandler = async () => {
+        try {
+            const response = await fetch('http://10.0.2.2:3000/orders/neworder', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ items: cart })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Failed to place order');
+            }
+    
+            // Empty the cart on successful order placement
+            dispatch(emptyCart());
+            Alert.alert('Order Placed', 'Your order has been placed successfully.');
+        } catch (error) {
+            console.error('Error placing order:', error.message);
+            Alert.alert('Error', 'Failed to place order. Please try again later.');
+        }
+    };
+
 
 
    return(

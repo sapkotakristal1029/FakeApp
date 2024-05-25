@@ -7,6 +7,7 @@ import { FlatList } from "react-native-gesture-handler";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Footer } from '../components/Footer';
 
+
 export const Product=({route, navigation})=>{
   const {itemName} = route.params;
 
@@ -39,8 +40,8 @@ export const Product=({route, navigation})=>{
               ) : (
             <View style = {styles.context}>
               <FlatList
-              data={products}
-              renderItem={({ item }) => (
+                data={products}
+                renderItem={({ item }) => (
                   
                 <Pressable
                   onPress={()=> productClickHandle(item)}

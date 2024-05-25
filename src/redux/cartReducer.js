@@ -1,12 +1,18 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 
 export const cartSlice = createSlice({
+
     name: 'cart',
     initialState: {
         cart: [],
         selected: false,
+   
     },
     reducers: {
+        emptyCart:(state,action)=>{
+            state.cart =[]
+
+        },
         addToCart: (state, action) => {
             const itemIncart = state.cart.find((item)=> item.id == action.payload.id);
             if (itemIncart){
@@ -37,6 +43,7 @@ export const cartSlice = createSlice({
         toogleSelected:(state)=>{
             state.selected = !state.selected
         },
+
     },
 });
   

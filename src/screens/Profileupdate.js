@@ -46,7 +46,7 @@ export const Profileupdate =({route, navigation})=>{
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
+          // console.log(data)
           if (data.status === 'OK') {
             setUser({ token: token, username: data.name, email: email })
             Alert.alert('Success', 'You login successfully');

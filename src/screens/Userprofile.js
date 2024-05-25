@@ -87,7 +87,6 @@ const styles=StyleSheet.create({
         bottom: 150,
         right: 10,
         flexDirection: 'row',
-
         
     },
 

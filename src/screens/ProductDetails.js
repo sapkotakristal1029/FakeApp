@@ -5,17 +5,54 @@ import { ScrollView } from "react-native-gesture-handler";
 import { Footer } from "../components/Footer";
 import {  useSelector, useDispatch } from "react-redux";
 import { addToCart } from "../redux/cartReducer";
+import { useEffect } from "react";
+import { UserContext } from "../services/Usercontext";
+import { useContext } from "react";
+
 
 
 export const ProductDetails =({navigation, route})=>{
+
+  const {user} = useContext(UserContext);
+  const token = user.token;
+
+  const cart = useSelector((state)=> state.cart.cart);
+
+  
 
   const {item} = route.params;
 
   const dispatch = useDispatch();
 
   const addToCartHandler=(item) => {
+
     dispatch(addToCart(item));
+
   };
+  useEffect(() => {
+    const sendCartToServer = async () => {
+
+      const response = await fetch('http://10.0.2.2:3000/cart', {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ items: cart })
+      });
+
+      if (!response.ok) {
+        console.error('Failed to update cart on the server', response.statusText);
+      }
+    };
+
+    if (cart.length > 0) {
+      sendCartToServer();
+    }
+  }, [cart]);
+
+ 
   
   return(   
     <View style={styles.container}>

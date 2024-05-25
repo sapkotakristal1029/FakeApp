@@ -10,7 +10,6 @@ import { Alert } from 'react-native';
 export const Signup =({navigation})=>{
     const [email, setEmail] = useState('')
 
-    
 
     const switchHandler=()=>{
       navigation.navigate("Login")
@@ -107,15 +106,15 @@ export const Signup =({navigation})=>{
             <Pressable 
               onPress={()=> clearAll()}
               style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.button,]}>
-  
-            <Text><AntDesign name="minuscircle" size={19} color="#b148d2" /> Clear </Text>
+                <AntDesign name="minuscircle" size={19} color="#b148d2" />
+            <Text>Clear</Text>
             </Pressable>
   
             <Pressable 
               onPress={()=> handleSignup()}
               style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.button,]}>
-  
-            <Text ><Ionicons name="happy" size={19} color="#b148d2" />  Sign Up  </Text>
+                <Ionicons name="happy" size={19} color="#b148d2" />
+                <Text>Sign Up</Text>
             </Pressable>
             
               
@@ -172,6 +171,8 @@ export const Signup =({navigation})=>{
       borderWidth: 1,
       backgroundColor:'#e79aff',
       borderRadius: 5,
+      flexDirection:"row",
+      padding:3
   
     },
     signupText:{
