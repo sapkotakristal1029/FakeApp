@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Text, View, StyleSheet, Pressable, Image } from "react-native";
+import { Text, View, StyleSheet, Pressable, Image, Alert } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Footer } from "../components/Footer";
 import { UserContext } from "../services/Usercontext";
@@ -13,15 +13,11 @@ export const Order = () => {
 
     const dispatch = useDispatch();
 
-
-
     const [orders, setOrders] = useState([]);
     const [paidOrders, setPaidOrders] = useState([]);
     const [deliveredOrders, setDeliveredOrders] = useState([]);
 
-
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-
 
     const [newOrdersVisible, setNewOrdersVisible] = useState(false);
     const [paidOrdersVisible, setPaidOrdersVisible] = useState(false);
@@ -51,9 +47,7 @@ export const Order = () => {
         }
         if (deliveredOrdersVisible){
             setDeliveredOrdersVisible(!deliveredOrdersVisible)
-
         }
-
     };
 
     const payOrderHandler = async (orderID) => {
@@ -75,7 +69,8 @@ export const Order = () => {
                 const updatedOrder = orders.find(order => order.id === orderID);
                 setOrders(orders.filter(order => order.id !== orderID));
                 setPaidOrders([...paidOrders, updatedOrder]);
-                dispatch(toogleSelected())
+                dispatch(toogleSelected());
+                Alert.alert("Paid", "Item is paid");
             } else {
                 console.error('Error updating order status:', await response.text());
             }
@@ -103,6 +98,7 @@ export const Order = () => {
                 const updatedOrder = paidOrders.find(order => order.id === orderID);
                 setPaidOrders(paidOrders.filter(order => order.id !== orderID));
                 setDeliveredOrders([...deliveredOrders, updatedOrder]);
+                Alert.alert("Delivered", "Item is delivered")
             } else {
                 console.error('Error updating order status:', await response.text());
             }
@@ -110,7 +106,6 @@ export const Order = () => {
             console.error('Error updating order status:', error);
         }
     };
-
     const paidOrderHandler = async () => {
 
         try {
@@ -138,14 +133,10 @@ export const Order = () => {
             
         } catch (error) {
             console.error('Error fetching orders:', error);
-        }
-
-
-    
+        }  
     };
 
     const deliveredOrderHandler = async () => {
-
         try {
             const response = await fetch('http://10.0.2.2:3000/orders/all', {
                 method: 'GET',

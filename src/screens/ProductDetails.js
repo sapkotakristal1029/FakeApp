@@ -1,4 +1,4 @@
-import { Text, StyleSheet,View, Image, Pressable } from "react-native";
+import { Text, StyleSheet,View, Image, Pressable, Alert } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { ScrollView } from "react-native-gesture-handler";
@@ -27,6 +27,7 @@ export const ProductDetails =({navigation, route})=>{
   const addToCartHandler=(item) => {
 
     dispatch(addToCart(item));
+    Alert.alert("Item added to cart")
 
   };
   useEffect(() => {

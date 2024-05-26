@@ -6,7 +6,6 @@ import { UserContext } from "../services/Usercontext";
 export const Userprofile =({ navigation})=>{
 
     const{user,setUser}=useContext(UserContext)
-    
 
     const updateHandler=()=>{
         navigation.navigate("Profileupdate")
@@ -39,7 +38,6 @@ export const Userprofile =({ navigation})=>{
                     <Text style = {styles.backtext} >Sign Out</Text>
                 </Pressable>
             </View>
-
         <Footer/>
         </View>
        

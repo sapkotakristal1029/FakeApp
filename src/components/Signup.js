@@ -54,10 +54,7 @@ export const Signup =({navigation})=>{
           if (data.status === 'OK') {
             Alert.alert('Success', 'You Signup successfully');
             
-            navigation.navigate("Login")
-
- 
-            
+            navigation.navigate("Login") 
             clearAll();
           } else {
             Alert.alert('Error', data.message || 'An error occurred');
@@ -68,7 +65,6 @@ export const Signup =({navigation})=>{
           Alert.alert('Error', 'An error occurred while registering');
         });
     };
-
 
     return (
       <View style={styles.container}>
@@ -113,8 +109,7 @@ export const Signup =({navigation})=>{
                 <Ionicons name="happy" size={19} color="#b148d2" />
                 <Text>Sign Up</Text>
             </Pressable>
-            
-              
+                      
           </View>
           <Pressable 
               onPress={()=> switchHandler()}
@@ -123,8 +118,6 @@ export const Signup =({navigation})=>{
             <Text style={styles.signupText}>Switch to: Login </Text>
             </Pressable>
             
-          
-  
         </View>
   
         <Footer/>
@@ -174,7 +167,6 @@ export const Signup =({navigation})=>{
     signupText:{
       textAlign: 'center',
       paddingTop: 10,
-      // paddingLeft: 10,
     }
   });
   

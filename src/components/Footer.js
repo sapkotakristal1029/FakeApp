@@ -4,7 +4,6 @@ import { Entypo } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 import { useState,useContext, useEffect } from "react";
-
 import {  useSelector, useDispatch } from "react-redux";
 import { UserContext } from "../services/Usercontext";
 
@@ -19,19 +18,14 @@ export const Footer=()=>{
     const dispatch = useDispatch();
     const selected = useSelector((state) => state.cart.selected);
 
-
     const isFocused = useIsFocused();
 
     const [neworderNo, setNewOrderNo] = useState(0)
-
-
-    
 
     useEffect(() => {
       if (isFocused) {
 
           const screenName = route.name;
-
           switch (screenName) {
               case 'Home':
                   setHomePressed(true);
@@ -66,12 +60,10 @@ export const Footer=()=>{
       }
   }, [isFocused, route]);
 
-
     const [isHomePressed, setHomePressed] = useState(false);
     const [isCartPressed, setCartPressed] = useState(false);
     const [isOrderPressed, setOrderPressed] = useState(false);
     const [isProfilePressed, setProfilePressed] = useState(false);
-
 
     const cart = useSelector((state)=> state.cart.cart);
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
@@ -95,12 +87,10 @@ export const Footer=()=>{
           } catch (error) {
               console.error('Error fetching orders:', error);
           }
-  
          
         };
         newOrderHandler();
       }
-
 
     },[cartItemCount, selected])
 
@@ -120,10 +110,6 @@ export const Footer=()=>{
         navigation.navigate('ShoppingCart')
 
       }
-
-
-
-    
     }
     const goToHomeHandler=()=>{
       if (route.name === 'Login' || route.name === 'Signup'){
@@ -134,46 +120,35 @@ export const Footer=()=>{
         setCartPressed(false);
         setOrderPressed(false);
         setProfilePressed(false);
+        navigation.navigate("Home")
+      }
 
-
-        navigation.navigate("Home")}
-
-        
-    
     }
     const goToOrderHandler=()=>{
       if (route.name === 'Login' || route.name === 'Signup'){
         showLoginAlert();
-        
-        
       }else{
         setHomePressed(false);
         setCartPressed(false);
         setOrderPressed(true);
-        setProfilePressed(false);
-        
+        setProfilePressed(false);     
         navigation.navigate("Order")   
 
       }
 
-    
     }
     const goToProfileHandler=()=>{
       if (route.name === 'Login' || route.name === 'Signup'){
         showLoginAlert();
-        
-        
+         
       }else{
         setHomePressed(false);
         setCartPressed(false);
         setOrderPressed(false);
-        setProfilePressed(true);
-        
+        setProfilePressed(true); 
         navigation.navigate("Userprofile")
 
-      }
-
-        
+      }     
     
     }
 return(
@@ -184,9 +159,7 @@ return(
               <View style={styles.buttons}>
                 <Entypo name="home" size={30} color={isHomePressed? "blue": 'grey'} />
                 <Text style = {[styles.homeText,{color: isHomePressed? "grey": 'grey'}]} >HOME</Text>
-
-              </View>
-            
+              </View>           
         </Pressable>
 
         <Pressable
@@ -199,9 +172,7 @@ return(
                   color={isCartPressed?"blue":"grey"} />
                 <Text style = {[styles.homeText,{color: isCartPressed? "blue": 'grey'}]} >MY CART</Text>
 
-              </View>
-            
-            
+              </View>        
         </Pressable>
         {
           cartItemCount>0 && (
@@ -244,14 +215,8 @@ return(
 
               <Text style = {[styles.homeText,{ color:isProfilePressed? "blue": 'grey'}]} >PROFILE</Text>
 
-            </View>
-            
-            
-        </Pressable>
-        
-
- 
-        
+            </View>          
+        </Pressable>      
 </View>
 )
 
@@ -261,8 +226,7 @@ const styles = StyleSheet.create({
         position:'absolute',
         bottom:5,
         left:0,
-        flexDirection: 'row',   
-        
+        flexDirection: 'row',          
       },
       buttons:{
         flexDirection:'column',
