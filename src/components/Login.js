@@ -5,6 +5,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Alert } from 'react-native';
 import { UserContext } from '../services/Usercontext';
+import { Footer } from './Footer';
 
 export const Login =({navigation})=>{
     const [email, setEmail] = useState('')
@@ -114,8 +115,9 @@ export const Login =({navigation})=>{
             </Pressable>  
   
         </View>
+
   
-  
+        <Footer/>
         
         <StatusBar style="auto" />
       </View>

@@ -1,4 +1,4 @@
-import { Text,Pressable, View,StyleSheet } from "react-native"
+import { Text,Pressable, View,StyleSheet, Alert } from "react-native"
 import { useNavigation, useRoute, useIsFocused } from "@react-navigation/native";
 import { Entypo } from '@expo/vector-icons';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -58,7 +58,7 @@ export const Footer=()=>{
                   setProfilePressed(true);
                   break;
               default:
-                  setHomePressed(true);
+                  setHomePressed(false);
                   setCartPressed(false);
                   setOrderPressed(false);
                   setProfilePressed(false);
@@ -67,7 +67,7 @@ export const Footer=()=>{
   }, [isFocused, route]);
 
 
-    const [isHomePressed, setHomePressed] = useState(true);
+    const [isHomePressed, setHomePressed] = useState(false);
     const [isCartPressed, setCartPressed] = useState(false);
     const [isOrderPressed, setOrderPressed] = useState(false);
     const [isProfilePressed, setProfilePressed] = useState(false);
@@ -77,70 +77,101 @@ export const Footer=()=>{
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
 
     useEffect(()=>{
-      const newOrderHandler = async () => {
-        try {
-            const response = await fetch('http://10.0.2.2:3000/orders/all', {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-            const dataObj = await response.json();
-            const filteredOrders = dataObj.orders.filter(order => order.is_delivered === 0 && order.is_paid === 0);
-            setNewOrderNo(filteredOrders.length);
-            
-        } catch (error) {
-            console.error('Error fetching orders:', error);
-        }
+      if(route.name !== 'Login' && route.name !== 'Signup'){
+        const newOrderHandler = async () => {
+          try {
+              const response = await fetch('http://10.0.2.2:3000/orders/all', {
+                  method: 'GET',
+                  headers: {
+                      'Accept': 'application/json',
+                      'Authorization': `Bearer ${token}`,
+                      'Content-Type': 'application/json'
+                  }
+              });
+              const dataObj = await response.json();
+              const filteredOrders = dataObj.orders.filter(order => order.is_delivered === 0 && order.is_paid === 0);
+              setNewOrderNo(filteredOrders.length);
+              
+          } catch (error) {
+              console.error('Error fetching orders:', error);
+          }
+  
+         
+        };
+        newOrderHandler();
+      }
 
-       
-      };
-      newOrderHandler();
 
     },[cartItemCount, selected])
 
+    const showLoginAlert = () => {
+      Alert.alert('Alert', 'Login or Signup to start.');
+    };
     
     const goToCartHandler=()=>{
-      setHomePressed(false);
-      setCartPressed(true);
-      setOrderPressed(false);
-      setProfilePressed(false);
+      if (route.name === 'Login' || route.name === 'Signup'){
+        showLoginAlert();
+
+      }else{
+        setHomePressed(false);
+        setCartPressed(true);
+        setOrderPressed(false);
+        setProfilePressed(false);
+        navigation.navigate('ShoppingCart')
+
+      }
 
 
-      
-      navigation.navigate('ShoppingCart')
+
     
     }
     const goToHomeHandler=()=>{
-      setHomePressed(true);
-      setCartPressed(false);
-      setOrderPressed(false);
-      setProfilePressed(false);
+      if (route.name === 'Login' || route.name === 'Signup'){
+        showLoginAlert();
+
+      }else{
+        setHomePressed(true);
+        setCartPressed(false);
+        setOrderPressed(false);
+        setProfilePressed(false);
 
 
-      navigation.navigate("Home")
+        navigation.navigate("Home")}
 
         
     
     }
     const goToOrderHandler=()=>{
-      setHomePressed(false);
-      setCartPressed(false);
-      setOrderPressed(true);
-      setProfilePressed(false);
-      
-      navigation.navigate("Order")   
+      if (route.name === 'Login' || route.name === 'Signup'){
+        showLoginAlert();
+        
+        
+      }else{
+        setHomePressed(false);
+        setCartPressed(false);
+        setOrderPressed(true);
+        setProfilePressed(false);
+        
+        navigation.navigate("Order")   
+
+      }
+
     
     }
     const goToProfileHandler=()=>{
-      setHomePressed(false);
-      setCartPressed(false);
-      setOrderPressed(false);
-      setProfilePressed(true);
-      
-      navigation.navigate("Userprofile")
+      if (route.name === 'Login' || route.name === 'Signup'){
+        showLoginAlert();
+        
+        
+      }else{
+        setHomePressed(false);
+        setCartPressed(false);
+        setOrderPressed(false);
+        setProfilePressed(true);
+        
+        navigation.navigate("Userprofile")
+
+      }
 
         
     
@@ -157,14 +188,7 @@ return(
               </View>
             
         </Pressable>
-        {
-          cartItemCount>0 && (
-              <View style = {styles.cartCountBadge}>
-                  <Text style = {styles.cartCount}>{cartItemCount}</Text>
-              </View>)
-                
-            
-        }
+
         <Pressable
             onPress={() => goToCartHandler()}
             style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.cartButton,]}>
@@ -180,12 +204,14 @@ return(
             
         </Pressable>
         {
-          neworderNo>0 && (
-            <View style = {styles.orderCountBadge}>
-                  <Text style = {styles.orderCount}>{neworderNo}</Text>
-              </View>
-          )
+          cartItemCount>0 && (
+              <View style = {styles.cartCountBadge}>
+                  <Text style = {styles.cartCount}>{cartItemCount}</Text>
+              </View>)
+                
+            
         }
+        
         
         <Pressable
             onPress={() => goToOrderHandler()}
@@ -201,6 +227,13 @@ return(
             
             
         </Pressable>
+        {
+          neworderNo>0 && (
+            <View style = {styles.orderCountBadge}>
+                  <Text style = {styles.orderCount}>{neworderNo}</Text>
+              </View>
+          )
+        }
         <Pressable
             onPress={() => goToProfileHandler()}
             style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.cartButton,]}>

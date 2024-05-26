@@ -4,18 +4,15 @@ import { StyleSheet, Text, View,TextInput, Pressable} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Alert } from 'react-native';
-
+import { Footer } from './Footer';
 
 
 export const Signup =({navigation})=>{
     const [email, setEmail] = useState('')
 
-
     const switchHandler=()=>{
       navigation.navigate("Login")
     }
-
-
     const changeEmailHandler=(val)=>{
       setEmail(val)
     }
@@ -107,7 +104,7 @@ export const Signup =({navigation})=>{
               onPress={()=> clearAll()}
               style = {({pressed}) => [(pressed ? {opacity: 0.2}:{}), styles.button,]}>
                 <AntDesign name="minuscircle" size={19} color="#b148d2" />
-            <Text>Clear</Text>
+                <Text>Clear</Text>
             </Pressable>
   
             <Pressable 
@@ -130,8 +127,7 @@ export const Signup =({navigation})=>{
   
         </View>
   
-  
-        
+        <Footer/>
         <StatusBar style="auto" />
       </View>
     );
