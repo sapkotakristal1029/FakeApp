@@ -3,15 +3,17 @@ import { Text, View, StyleSheet, Pressable, Image, Alert } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { Footer } from "../components/Footer";
 import { UserContext } from "../services/Usercontext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toogleSelected } from "../redux/cartReducer";
 import { AntDesign } from '@expo/vector-icons';
+
 
 export const Order = () => {
     const { user } = useContext(UserContext);
     const token = user.token;
 
     const dispatch = useDispatch();
+    const selected = useSelector((state) => state.cart.selected);
 
     const [orders, setOrders] = useState([]);
     const [paidOrders, setPaidOrders] = useState([]);
@@ -22,6 +24,41 @@ export const Order = () => {
     const [newOrdersVisible, setNewOrdersVisible] = useState(false);
     const [paidOrdersVisible, setPaidOrdersVisible] = useState(false);
     const [deliveredOrdersVisible, setDeliveredOrdersVisible] = useState(false);
+
+    const[totalNewOrder, setTotalNewOrder] = useState(0)
+    const[totalPaidOrder, setTotalPaidOrder] = useState(0)
+    const[totalDeliverOrder, setTotalDeliverOrder] = useState(0)
+    useEffect(()=>{
+          const fetchDataCount = async () => {
+            try {
+                const response = await fetch('http://10.0.2.2:3000/orders/all', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const dataObj = await response.json();
+                let filteredO = dataObj.orders.filter(order => order.is_delivered === 0 && order.is_paid === 0);
+                setTotalNewOrder(filteredO.length);
+
+                let filteredOr = dataObj.orders.filter(order => order.is_delivered === 0 && order.is_paid === 1);
+                setTotalPaidOrder(filteredOr.length);
+
+                let filteredOrd = dataObj.orders.filter(order => order.is_delivered === 1 && order.is_paid === 1);
+                setTotalDeliverOrder(filteredOrd.length);
+                
+                
+            } catch (error) {
+                console.error('Error fetching orders:', error);
+            }
+           
+          };
+          fetchDataCount();
+
+  
+      },[selected])
 
     const newOrderHandler = async () => {
         try {
@@ -99,6 +136,7 @@ export const Order = () => {
                 setPaidOrders(paidOrders.filter(order => order.id !== orderID));
                 setDeliveredOrders([...deliveredOrders, updatedOrder]);
                 Alert.alert("Delivered", "Item is delivered")
+                dispatch(toogleSelected());
             } else {
                 console.error('Error updating order status:', await response.text());
             }
@@ -193,14 +231,14 @@ export const Order = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Orders</Text>
+            <Text style={styles.header}>My Orders</Text>
             <View style={styles.card}>
                 <Pressable
                     onPress={newOrderHandler}
                     style={({ pressed }) => [(pressed ? { opacity: 0.2 } : {}), styles.orderButton]}>
                     <View style={styles.clickableHandler}>
 
-                        <Text style={styles.orderText}>New Orders</Text>
+                        <Text style={styles.orderText}>New Orders: {totalNewOrder}</Text>
                         <Text>                              </Text>
                         <AntDesign name={newOrdersVisible?"caretup":"caretdown"} size={20} color="green" />
                     </View>
@@ -246,7 +284,7 @@ export const Order = () => {
                     style={({ pressed }) => [(pressed ? { opacity: 0.2 } : {}), styles.orderButton]}>
                     <View style={styles.clickableHandler}>
 
-                        <Text style={styles.orderText}>Paid Orders</Text>
+                        <Text style={styles.orderText}>Paid Orders: {totalPaidOrder}</Text>
                         <Text>                              </Text>
                         <AntDesign name={paidOrdersVisible?"caretup":"caretdown"} size={20} color="green" />
                     </View>
@@ -291,7 +329,7 @@ export const Order = () => {
                     style={({ pressed }) => [(pressed ? { opacity: 0.2 } : {}), styles.orderButton]}>
                     <View style={styles.deliveryClickableHandler}>
 
-                        <Text style={styles.orderText}>      Delivered Orders</Text>
+                        <Text style={styles.orderText}>     Delivered Orders: {totalDeliverOrder}</Text>
                         <Text>                      </Text>
                         <AntDesign name={deliveredOrdersVisible?"caretup":"caretdown"} size={20} color="green" />
                     </View>

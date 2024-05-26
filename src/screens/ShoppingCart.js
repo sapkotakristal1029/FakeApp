@@ -12,7 +12,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { UserContext } from "../services/Usercontext";
 import { useContext, useState, useEffect } from "react";
 import { Alert } from "react-native";
-
+import { toogleSelected } from "../redux/cartReducer";
 
 export const ShoppingCart =()=>{
     const cart = useSelector((state)=> state.cart.cart);
@@ -86,6 +86,7 @@ export const ShoppingCart =()=>{
             // Empty the cart on successful order placement
             dispatch(emptyCart());
             Alert.alert('Order Placed', 'Your order has been placed successfully.');
+            dispatch(toogleSelected());
         } catch (error) {
             console.error('Error placing order:', error.message);
             Alert.alert('Error', 'Failed to place order. Please try again later.');

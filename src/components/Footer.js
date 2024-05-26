@@ -95,7 +95,7 @@ export const Footer=()=>{
     },[cartItemCount, selected])
 
     const showLoginAlert = () => {
-      Alert.alert('Alert', 'Login or Signup to start.');
+      Alert.alert('Not Logged In', 'You must Login to View This tab');
     };
     
     const goToCartHandler=()=>{
