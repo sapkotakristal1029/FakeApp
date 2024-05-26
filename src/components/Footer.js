@@ -7,7 +7,6 @@ import { useState,useContext, useEffect } from "react";
 import {  useSelector, useDispatch } from "react-redux";
 import { UserContext } from "../services/Usercontext";
 
-
 export const Footer=()=>{
     const { user } = useContext(UserContext);
     const token = user.token;
@@ -66,8 +65,9 @@ export const Footer=()=>{
     const [isProfilePressed, setProfilePressed] = useState(false);
 
     const cart = useSelector((state)=> state.cart.cart);
-    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
 
+    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0)
+    
     useEffect(()=>{
       if(route.name !== 'Login' && route.name !== 'Signup'){
         const newOrderHandler = async () => {

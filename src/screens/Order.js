@@ -416,6 +416,7 @@ const styles = StyleSheet.create({
     },
     newOrderBox: {
         marginBottom: 10,
+        maxHeight: 400
     },
     orderText: {
         fontSize: 20,
@@ -434,7 +435,7 @@ const styles = StyleSheet.create({
     },
     orderItemText: {
         fontWeight: 'bold',
-        marginLeft: 20,
+        marginLeft: 10,
         marginRight: 20,
     },
     orderItemDetails: {
